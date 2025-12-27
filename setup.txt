@@ -1,0 +1,4 @@
+go mod init logflow
+
+to run:
+ go run ./cmd/agent
