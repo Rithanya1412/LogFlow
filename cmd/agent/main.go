@@ -14,6 +14,7 @@ type LogEvent struct {
 	Service string
 	Level   string
 	Message string
+	Route   string
 }
 
 func main() {
@@ -53,6 +54,8 @@ func main() {
 				evt.Service = val
 			case "level":
 				evt.Level = val
+			case "route":
+				evt.Route = val
 			}
 		}
 		data, err := json.Marshal(evt)

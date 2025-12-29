@@ -14,6 +14,7 @@ type LogEvent struct {
 	Level     string
 	Message   string
 	Timestamp string
+	Route     string
 }
 
 var (
@@ -49,6 +50,7 @@ func main() {
 		serviceFilter := r.URL.Query().Get("service")
 		fromStr := r.URL.Query().Get("from")
 		toStr := r.URL.Query().Get("to")
+		routeFilter := r.URL.Query().Get("route")
 
 		var fromTime, toTime time.Time
 		var haveFrom, haveTo bool
@@ -87,6 +89,9 @@ func main() {
 				continue
 			}
 			if haveTo && evtTime.After(toTime) {
+				continue
+			}
+			if routeFilter != "" && evt.Route != routeFilter {
 				continue
 			}
 
