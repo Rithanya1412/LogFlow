@@ -8,14 +8,33 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"logflow/cmd/agent/sources"
 )
 
 type LogEvent struct {
-	Service string
-	Level   string
-	Message string
-	Route   string
+    Source      string    // Application | System | Security
+    Provider    string    // App / Service name
+    Level       string    // info | warn | error | critical
+    Message     string
+    EventID     uint32
+    Timestamp   time.Time
+    Host        string
 }
+events, err := sources.ReadApplicationLogs()
+if err != nil {
+    panic(err)
+}
+
+for _, e := range events {
+    fmt.Printf(
+        "[%s] [%s] %s: %s\n",
+        e.Level,
+        e.Source,
+        e.Provider,
+        e.Message,
+    )
+}
+
 
 func main() {
 	f, err := os.Open("app.log")
